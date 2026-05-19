@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+  <title>Team University Voting System | Admin + Voter Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f4f8;
+      color: #1e2a3e;
+      line-height: 1.5;
+    }
+
+    .app-wrapper {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: clamp(0.75rem, 3vw, 1.5rem);
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #0b2b26 0%, #144d3a 100%);
+      border-radius: clamp(1rem, 4vw, 2rem);
+      padding: clamp(0.8rem, 3vw, 1.2rem) clamp(1rem, 4vw, 2rem);
+      margin-bottom: clamp(1rem, 4vw, 2rem);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: clamp(0.6rem, 2vw, 1rem);
+    }
+
+    .logo-symbol {
+      width: clamp(45px, 8vw, 70px);
+      height: clamp(45px, 8vw, 70px);
+      border-radius: clamp(16px, 3vw, 24px) clamp(6px, 2vw, 8px) clamp(16px, 3vw, 24px) clamp(6px, 2vw, 8px);
+      background: #f9c74f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .logo-symbol img { width: 100%; height: 100%; object-fit: cover; }
+    .logo-text h1 { font-size: clamp(1.2rem, 5vw, 1.8rem); font-weight: 800; color: white; }
+    .logo-text p { color: #f9c74f; font-weight: 500; font-size: clamp(0.65rem, 2.5vw, 0.85rem); }
+
+    .user-badge {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(4px);
+      padding: 0.5rem 1.2rem;
+      border-radius: 60px;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+      color: white;
+      cursor: pointer;
+    }
+
+    /* Access Modal (Role Selection) */
+    .access-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+
+    .access-card {
+      background: white;
+      border-radius: 2rem;
+      max-width: 500px;
+      width: 90%;
+      padding: 2rem;
+      text-align: center;
+      animation: fadeInUp 0.4s ease;
+    }
+
+    .role-buttons {
+      display: flex;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .role-btn {
+      padding: 0.8rem 1.5rem;
+      border-radius: 60px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .voter-btn { background: #144d3a; color: white; }
+    .admin-btn { background: #1e3a5f; color: white; }
+
+    .auth-form {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .form-group { margin-bottom: 1rem; text-align: left; }
+    .form-group label { font-weight: 600; display: block; margin-bottom: 0.4rem; }
+    .auth-input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 60px;
+      font-size: 0.95rem;
+    }
+    .auth-input:focus { outline: none; border-color: #144d3a; }
+    .auth-submit {
+      background: #144d3a;
+      color: white;
+      border: none;
+      padding: 0.8rem;
+      width: 100%;
+      border-radius: 60px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .error-msg { color: #dc2626; font-size: 0.8rem; margin-top: 0.5rem; }
+
+    /* Tabs & Common */
+    .tabs-container {
+      display: flex;
+      gap: 0.5rem;
+      background: white;
+      border-radius: 60px;
+      padding: 0.3rem;
+      margin-bottom: 1.5rem;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 0.8rem;
+      border: none;
+      background: transparent;
+      font-weight: 700;
+      border-radius: 50px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .tab-btn.active { background: #144d3a; color: white; }
+    .stats-banner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .stat-card {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 1rem 1.5rem;
+      flex: 1 1 150px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border: 1px solid #e2e8f0;
+    }
+    .stat-icon {
+      background: #eef2ff;
+      width: 48px;
+      height: 48px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #144d3a;
+    }
+    .voting-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
+    @media (max-width: 768px) { .voting-grid { grid-template-columns: 1fr; } }
+    .positions-container { display: flex; flex-direction: column; gap: 1.5rem; }
+    .position-card {
+      background: white;
+      border-radius: 1.75rem;
+      padding: 1.5rem;
+    }
+    .candidates-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .candidate-item {
+      background: #fafcff;
+      border-radius: 20px;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border: 1px solid #eef2f6;
+      cursor: pointer;
+    }
+    .candidate-item.selected { background: #e6f7ec; border-color: #2e7d64; }
+    .candidate-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 60px;
+      overflow: hidden;
+      background: #144d3a;
+      flex-shrink: 0;
+    }
+    .candidate-image img { width: 100%; height: 100%; object-fit: cover; }
+    .radio-custom {
+      width: 24px;
+      height: 24px;
+      border-radius: 24px;
+      border: 2px solid #b9c8d4;
+      background: white;
+    }
+    .candidate-item.selected .radio-custom { background: #2e7d64; border-color: #2e7d64; box-shadow: inset 0 0 0 3px white; }
+    .right-panel {
+      background: white;
+      border-radius: 1.75rem;
+      padding: 1.5rem;
+      height: fit-content;
+      position: sticky;
+      top: 1rem;
+    }
+    select, .admin-select {
+      width: 100%;
+      padding: 0.8rem;
+      border-radius: 60px;
+      border: 1px solid #cfdfe9;
+      margin-top: 0.5rem;
+    }
+    .btn-submit {
+      background: #144d3a;
+      width: 100%;
+      border: none;
+      padding: 1rem;
+      font-weight: 700;
+      border-radius: 60px;
+      color: white;
+      cursor: pointer;
+    }
+    .results-container { display: none; background: white; border-radius: 28px; padding: 1.5rem; }
+    .results-container.active { display: block; }
+    .candidate-result {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      padding: 0.8rem;
+      background: #fafcff;
+      border-radius: 16px;
+      margin-bottom: 0.8rem;
+    }
+    .vote-progress-bg { background: #e2e8f0; border-radius: 20px; height: 8px; width: 200px; }
+    .vote-progress-fill { background: #2e7d64; height: 8px; border-radius: 20px; width: 0%; }
+    .winner-badge { background: #f9c74f; padding: 0.2rem 0.6rem; border-radius: 30px; font-size: 0.7rem; font-weight: 700; margin-left: 0.5rem; }
+    .voter-log-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+    .voter-log-table th, .voter-log-table td {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 0.6rem;
+      text-align: left;
+    }
+    .admin-panel {
+      background: #f8fafc;
+      border-radius: 1.5rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    footer { margin-top: 2rem; text-align: center; font-size: 0.75rem; color: #5d6f7f; border-top: 1px solid #dce5ec; padding-top: 1.5rem; }
+    .alert-message { margin-top: 1rem; background: #ecfdf5; padding: 0.8rem; border-radius: 16px; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+<div class="app-wrapper" id="appWrapper" style="display: none;">
+  <div class="header">
+    <div class="logo-area">
+      <div class="logo-symbol"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23144d3a'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='%23f9c74f' font-weight='bold' font-family='Arial'%3ETU%3C/text%3E%3C/svg%3E"></div>
+      <div class="logo-text"><h1>Team University</h1><p>EMPOWER FOR GENERATIONS</p></div>
+    </div>
+    <div class="user-badge" id="sessionBadge"><i class="fas fa-user-lock"></i> <span id="sessionRole">Not logged in</span></div>
+  </div>
+  <div class="tabs-container" id="tabsContainer">
+    <button class="tab-btn active" id="voteTabBtn"><i class="fas fa-check-circle"></i><span> Vote</span></button>
+    <button class="tab-btn" id="resultsTabBtn"><i class="fas fa-chart-simple"></i><span> Results</span></button>
+    <button class="tab-btn" id="adminTabBtn" style="display:none;"><i class="fas fa-users-gear"></i><span> Admin Panel</span></button>
+  </div>
+  <div class="stats-banner">
+    <div class="stat-card"><div class="stat-icon"><i class="fas fa-users"></i></div><div><h3 id="totalVotersCount">0</h3><p>Voters Cast</p></div></div>
+    <div class="stat-card"><div class="stat-icon"><i class="fas fa-chart-line"></i></div><div><h3 id="liveTurnout">0</h3><p>Total Votes</p></div></div>
+    <div class="stat-card"><div class="stat-icon"><i class="fas fa-building"></i></div><div><h3>12+ Centers</h3><p>Active</p></div></div>
+  </div>
+
+  <!-- VOTING SECTION (Student View) -->
+  <div class="voting-grid" id="votingSection">
+    <div class="positions-container" id="positionsContainer"></div>
+    <div class="right-panel">
+      <label><i class="fas fa-map-marker-alt"></i> Voting Center</label>
+      <select id="centerSelect">
+        <option value="">-- Select Center --</option>
+        <option value="Mabalala Center">Mabalala Center</option><option value="Main Campus - Kisozi">Main Campus - Kampala</option>
+        <option value="Masaka Center">Masaka Center</option><option value="Jinja Center">Jinja Center</option>
+        <option value="Gulu Center">Gulu Center</option><option value="Mbarara Center">Mbarara Center</option>
+        <option value="Fort Portal Center">Fort Portal Center</option><option value="Mbale Center">Mbale Center</option>
+        <option value="Arua Center">Arua Center</option>
+      </select>
+      <div class="voting-status" style="margin:1rem 0;"><h4>Your Ballot</h4><div id="summaryList"><p>No selections</p></div>
+      <div class="progress-votes"><div class="vote-bar" id="completionBar"></div></div><div><span id="completionPercent">0%</span> Complete</div></div>
+      <button id="submitVoteBtn" class="btn-submit"><i class="fas fa-vote-yea"></i> Cast Vote</button>
+      <div id="voteMessage" class="alert-message" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- RESULTS SECTION -->
+  <div class="results-container" id="resultsSection"><h2><i class="fas fa-chart-simple"></i> Live Results</h2><div id="resultsList"></div></div>
+
+  <!-- ADMIN PANEL SECTION -->
+  <div class="results-container" id="adminPanelSection">
+    <h2><i class="fas fa-shield-haltered"></i> Electoral Commission Dashboard</h2>
+    <div class="admin-panel">
+      <h3>📊 Voting Summary</h3>
+      <p><strong>Total Votes Cast:</strong> <span id="adminTotalVotes">0</span></p>
+      <p><strong>Total Unique Voters:</strong> <span id="adminUniqueVoters">0</span></p>
+      <button id="refreshAdminBtn" class="btn-submit" style="background:#1e3a5f; margin-top:0.5rem;"><i class="fas fa-sync-alt"></i> Refresh Data</button>
+      <button id="resetElectionBtn" class="btn-submit" style="background:#9b2c2c; margin-top:0.5rem;"><i class="fas fa-trash-alt"></i> Reset Election (Full Reset)</button>
+    </div>
+    <div class="admin-panel">
+      <h3><i class="fas fa-list-ul"></i> Detailed Voter Log (Name, Reg, Center & Votes per Candidate)</h3>
+      <div style="overflow-x: auto;"><table class="voter-log-table" id="voterLogTable"><thead><tr><th>Full Name</th><th>Reg Number</th><th>Center</th><th>Votes Cast</th><th>Timestamp</th></tr></thead><tbody id="voterLogBody"></tbody></table></div>
+    </div>
+  </div>
+  <footer><i class="far fa-registered"></i> Team University Electoral Commission • Secure One-Vote System</footer>
+</div>
+
+<script>
+  // ---------- CANDIDATE DATA ----------
+  const POSITIONS = [
+    { id: 'president', name: '🎓 Guild President' },
+    { id: 'vicePresident', name: '📚 Vice President Academic' },
+    { id: 'finance', name: '💰 Finance Secretary' },
+    { id: 'gender', name: '⚖️ Gender & Social Affairs' },
+    { id: 'sports', name: '🏆 Sports Director' }
+  ];
+  const CANDIDATES = {
+    president: [
+      { id: 'p1', name: 'Kato Nsubuga', party: 'Visionary Team', image: '3.jpeg' },
+      { id: 'p2', name: 'Muton Hanisha', party: 'Unity For Progress', image: '6.jpg' },
+      { id: 'p3', name: 'Mugula Abdalatif', party: 'Student First', image: '13.jpeg' }
+    ],
+    vicePresident: [
+      { id: 'vp1', name: 'Nakajako Sarah', party: 'Academic Excellence', image: '11.png' },
+      { id: 'vp2', name: 'Akanyijuka Albert', party: 'Bridge Builder', image: '14.jpeg' },
+      { id: 'vp3', name: 'Natukunda Gloria', party: 'Innovate Hub', image: '10.jpg' }
+    ],
+    finance: [
+      { id: 'f1', name: 'Grace Atukunda', party: 'Accountability Now', image: '7.png' },
+      { id: 'f2', name: 'Cheptoo Mercy', party: 'Transparent Finance', image: '18.jpeg' }
+    ],
+    gender: [
+      { id: 'g1', name: 'Semaganda Anthony', party: 'Inclusivity & Equity', image: '17.jpeg' },
+      { id: 'g2', name: 'Kalanz Paul', party: 'Gender Action', image: '15.jpeg' }
+    ],
+    sports: [
+      { id: 's1', name: 'Aziz Junior', party: 'Game Changer', image: '16.jpeg' },
+      { id: 's2', name: 'Tombe Emmanuel Lou', party: 'Sports For All', image: '19.jpeg' }
+    ]
+  };
+
+  // Global state
+  let overallTallies = {};
+  let totalVotesCast = 0;
+  let currentSession = { role: null, voter: null, isAdmin: false }; // voter: { reg, fullName, hasVoted }
+  let currentSelections = {};
+
+  // ---------- Storage Helpers ----------
+  function loadData() {
+    const storedTallies = localStorage.getItem('tu_tallies');
+    if(storedTallies) overallTallies = JSON.parse(storedTallies);
+    else { overallTallies = {}; for(let p in CANDIDATES) CANDIDATES[p].forEach(c => overallTallies[c.id] = 0); }
+    const storedTotal = localStorage.getItem('tu_totalVotes');
+    totalVotesCast = storedTotal ? parseInt(storedTotal) : 0;
+    if(!storedTallies) saveTallies();
+  }
+  function saveTallies() { localStorage.setItem('tu_tallies', JSON.stringify(overallTallies)); localStorage.setItem('tu_totalVotes', totalVotesCast); }
+  
+  function getVotersRegistry() { return JSON.parse(localStorage.getItem('tu_votersRegistry') || '{}'); }
+  function saveVotersRegistry(registry) { localStorage.setItem('tu_votersRegistry', JSON.stringify(registry)); }
+  
+  function hasVoted(reg) { return !!getVotersRegistry()[reg]; }
+  function recordVoter(reg, fullName, selections, center) {
+    const registry = getVotersRegistry();
+    registry[reg] = { fullName, reg, center, votes: selections, timestamp: Date.now() };
+    saveVotersRegistry(registry);
+  }
+
+  // Validation
+  function isValidRegNumber(reg) { return /^(\d{1,2})\/(\d{1,2})\/TU\/(\d{3,4})\/([A-Z0-9]{3,6})$/i.test(reg.trim().toUpperCase()) || reg.trim().toUpperCase() === "23/8/TU/225/DITW"; }
+  function isValidFullName(name) { return name.trim().split(/\s+/).length >= 2 && name.trim().length >= 5; }
+
+  // ---------- UI Rendering (Voter) ----------
+  function renderVotingUI() {
+    const container = document.getElementById('positionsContainer');
+    if(!container) return;
+    container.innerHTML = '';
+    POSITIONS.forEach(pos => {
+      const cands = CANDIDATES[pos.id];
+      const selectedId = currentSelections[pos.id];
+      const card = document.createElement('div');
+      card.className = 'position-card';
+      card.innerHTML = `<div class="position-header"><h2>${pos.name}</h2></div><div class="candidates-list" id="list-${pos.id}"></div>`;
+      container.appendChild(card);
+      const listDiv = card.querySelector(`.candidates-list`);
+      cands.forEach(cand => {
+        const isSelected = selectedId === cand.id;
+        const div = document.createElement('div');
+        div.className = `candidate-item ${isSelected ? 'selected' : ''}`;
+        div.innerHTML = `
+          <div class="candidate-image"><img src="${cand.image}" onerror="this.src='https://ui-avatars.com/api/?background=2e7d64&color=fff&name=${cand.name.charAt(0)}'"></div>
+          <div class="candidate-info"><div class="candidate-name">${cand.name}</div><div class="candidate-party">${cand.party}</div></div>
+          <div class="radio-custom"></div>
+        `;
+        div.addEventListener('click', () => { if(currentSession.voter?.hasVoted) { showMessage("Already voted!", 'error'); return; } currentSelections[pos.id] = cand.id; renderVotingUI(); updateSummary(); });
+        listDiv.appendChild(div);
+      });
+    });
+    updateSummary();
+  }
+  function updateSummary() {
+    const cnt = Object.keys(currentSelections).length;
+    const percent = Math.round((cnt / POSITIONS.length) * 100);
+    document.getElementById('completionPercent').innerText = `${percent}%`;
+    document.getElementById('completionBar').style.width = `${percent}%`;
+    const summaryDiv = document.getElementById('summaryList');
+    if(cnt === 0) summaryDiv.innerHTML = '<p>No selections yet</p>';
+    else { let html = '<ul>'; POSITIONS.forEach(p => { const sel = currentSelections[p.id]; if(sel) { const cand = CANDIDATES[p.id].find(c=>c.id===sel); html+=`<li><strong>${p.name}:</strong> ${cand?.name}</li>`; } else html+=`<li><strong>${p.name}:</strong> Pending</li>`; }); html+='</ul>'; summaryDiv.innerHTML = html; }
+  }
+  function showMessage(msg, type) {
+    const div = document.getElementById('voteMessage'); div.style.display = 'block'; div.style.background = type==='error'?'#fee2e2':'#e0f2fe'; div.innerHTML = `<i class="fas fa-info-circle"></i> ${msg}`;
+    setTimeout(()=>div.style.display='none',4000);
+  }
+  function submitVote() {
+    if(!currentSession.voter || currentSession.voter.hasVoted) { showMessage("You have already voted or not logged in.", 'error'); return; }
+    const center = document.getElementById('centerSelect').value;
+    if(!center) { showMessage("Select voting center.", 'error'); return; }
+    if(Object.keys(currentSelections).length !== POSITIONS.length) { showMessage(`Vote for all ${POSITIONS.length} positions.`, 'error'); return; }
+    for(let posId in currentSelections) { const cid = currentSelections[posId]; overallTallies[cid] = (overallTallies[cid]||0)+1; }
+    totalVotesCast++;
+    recordVoter(currentSession.voter.regNumber, currentSession.voter.fullName, currentSelections, center);
+    currentSession.voter.hasVoted = true;
+    saveTallies();
+    updateStatsUI();
+    showMessage(`✅ Vote cast at ${center}. Thank you ${currentSession.voter.fullName}!`, 'info');
+    document.getElementById('submitVoteBtn').disabled = true;
+    document.getElementById('submitVoteBtn').innerHTML = '<i class="fas fa-check-double"></i> Voted';
+    renderVotingUI();
+    renderResults();
+    if(currentSession.isAdmin) renderAdminPanel();
+  }
+
+  function renderResults() {
+    const container = document.getElementById('resultsList'); if(!container) return;
+    let html = '';
+    POSITIONS.forEach(pos => {
+      const candidates = CANDIDATES[pos.id];
+      let totalPos = 0; const stats = candidates.map(c => { const v = overallTallies[c.id]||0; totalPos+=v; return {...c, votes:v}; });
+      html += `<div class="result-card"><div style="font-weight:800;">${pos.name}</div>`;
+      stats.forEach(s => { const percent = totalPos>0 ? (s.votes/totalPos*100):0; const isWinner = totalPos>0 && s.votes === Math.max(...stats.map(x=>x.votes)); html += `
+        <div class="candidate-result"><div style="display:flex; gap:0.8rem;"><div style="width:45px;height:45px;border-radius:45px;overflow:hidden;"><img src="${s.image}" style="width:100%;"></div><div><strong>${s.name}</strong> ${isWinner?'<span class="winner-badge">LEADING</span>':''}<br><small>${s.party}</small></div></div>
+        <div><div>${s.votes} (${percent.toFixed(1)}%)</div><div class="vote-progress-bg"><div class="vote-progress-fill" style="width:${percent}%;"></div></div></div></div>`; });
+      html += `</div>`;
+    });
+    container.innerHTML = html;
+  }
+
+  function updateStatsUI() { document.getElementById('liveTurnout').innerText = totalVotesCast; document.getElementById('totalVotersCount').innerText = Object.keys(getVotersRegistry()).length; }
+  
+  // Admin Panel Full Details
+  function renderAdminPanel() {
+    if(!currentSession.isAdmin) return;
+    const registry = getVotersRegistry();
+    document.getElementById('adminTotalVotes').innerText = totalVotesCast;
+    document.getElementById('adminUniqueVoters').innerText = Object.keys(registry).length;
+    const tbody = document.getElementById('voterLogBody');
+    tbody.innerHTML = '';
+    Object.values(registry).forEach(v => {
+      const voteSummary = Object.entries(v.votes || {}).map(([posId, candId]) => {
+        const posName = POSITIONS.find(p=>p.id===posId)?.name || posId;
+        const cand = Object.values(CANDIDATES).flat().find(c=>c.id===candId);
+        return `${posName}: ${cand?.name || candId}`;
+      }).join('; ');
+      const row = `<tr><td>${v.fullName}</td><td>${v.reg}</td><td>${v.center}</td><td>${voteSummary || 'N/A'}</td><td>${new Date(v.timestamp).toLocaleString()}</td></tr>`;
+      tbody.insertAdjacentHTML('beforeend', row);
+    });
+  }
+
+  function resetElection() {
+    if(confirm("⚠️ FULL RESET: This will delete all votes, voter registry and tallies. Are you sure? Only Admin can do this.")) {
+      localStorage.removeItem('tu_tallies'); localStorage.removeItem('tu_totalVotes'); localStorage.removeItem('tu_votersRegistry');
+      loadData(); // reinit tallies
+      totalVotesCast = 0;
+      saveTallies();
+      if(currentSession.voter) currentSession.voter.hasVoted = false;
+      currentSelections = {};
+      updateStatsUI();
+      renderResults();
+      if(currentSession.isAdmin) renderAdminPanel();
+      if(!currentSession.isAdmin && currentSession.voter) renderVotingUI();
+      showMessage("Election has been reset by Admin.", "info");
+    }
+  }
+
+  // Access Control: Role Selection Modal
+  function showAccessModal() {
+    const modal = document.createElement('div'); modal.className = 'access-overlay'; modal.id='accessModal';
+    modal.innerHTML = `
+      <div class="access-card"><div class="logo-symbol-small" style="margin:0 auto; width:70px; height:70px; background:#144d3a; border-radius:30px; overflow:hidden;"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23144d3a'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='%23f9c74f' font-weight='bold' font-family='Arial'%3ETU%3C/text%3E%3C/svg%3E"></div>
+      <h2>Team University Voting Portal</h2><p>Select access type</p>
+      <div class="role-buttons"><button id="voterRoleBtn" class="role-btn voter-btn"><i class="fas fa-user-graduate"></i> Student Voter</button><button id="adminRoleBtn" class="role-btn admin-btn"><i class="fas fa-user-tie"></i> Electoral Admin</button></div>
+      <div id="dynamicAuthForm"></div></div>`;
+    document.body.appendChild(modal);
+    const voterBtn = document.getElementById('voterRoleBtn');
+    const adminBtn = document.getElementById('adminRoleBtn');
+    const formContainer = document.getElementById('dynamicAuthForm');
+    
+    voterBtn.onclick = () => {
+      formContainer.innerHTML = `<div class="auth-form"><div class="form-group"><label>Full Name</label><input type="text" id="voterFullName" class="auth-input" placeholder="e.g., Okello James"></div>
+      <div class="form-group"><label>Registration Number</label><input type="text" id="voterReg" class="auth-input" placeholder="23/8/TU/225/DITW"></div>
+      <button id="voterLoginBtn" class="auth-submit"><i class="fas fa-sign-in-alt"></i> Verify & Vote</button><div id="authError" class="error-msg"></div></div>`;
+      document.getElementById('voterLoginBtn').onclick = () => {
+        const full = document.getElementById('voterFullName').value.trim();
+        const reg = document.getElementById('voterReg').value.trim().toUpperCase();
+        if(!isValidFullName(full)) { document.getElementById('authError').innerText = 'Enter valid full name (First & Last)'; return; }
+        if(!isValidRegNumber(reg)) { document.getElementById('authError').innerText = 'Invalid registration number'; return; }
+        if(hasVoted(reg)) { document.getElementById('authError').innerText = `❌ ${reg} has already voted. One vote per student.`; return; }
+        currentSession = { role: 'voter', isAdmin: false, voter: { regNumber: reg, fullName: full, hasVoted: false } };
+        currentSelections = {};
+        document.getElementById('appWrapper').style.display = 'block';
+        document.getElementById('sessionRole').innerHTML = `<i class="fas fa-user-check"></i> Voter: ${full}`;
+        document.getElementById('adminTabBtn').style.display = 'none';
+        document.getElementById('votingSection').style.display = 'grid';
+        document.getElementById('resultsSection').classList.remove('active');
+        document.getElementById('adminPanelSection').classList.remove('active');
+        modal.remove();
+        renderVotingUI();
+        updateStatsUI();
+        renderResults();
+        document.getElementById('submitVoteBtn').disabled = false;
+        document.getElementById('submitVoteBtn').innerHTML = '<i class="fas fa-vote-yea"></i> Cast Vote Securely';
+      };
+    };
+    adminBtn.onclick = () => {
+      formContainer.innerHTML = `<div class="auth-form"><div class="form-group"><label>Admin Username</label><input type="text" id="adminUser" class="auth-input" placeholder="Kato Nsubuga"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="adminPass" class="auth-input"></div>
+      <button id="adminLoginBtn" class="auth-submit"><i class="fas fa-lock"></i> Access Dashboard</button><div id="adminError" class="error-msg"></div></div>`;
+      document.getElementById('adminLoginBtn').onclick = () => {
+        const user = document.getElementById('adminUser').value.trim();
+        const pass = document.getElementById('adminPass').value;
+        if(user === "Kato Nsubuga" && pass === "love123") {
+          currentSession = { role: 'admin', isAdmin: true, voter: null };
+          document.getElementById('appWrapper').style.display = 'block';
+          document.getElementById('sessionRole').innerHTML = `<i class="fas fa-shield-alt"></i> Admin: Kato Nsubuga`;
+          document.getElementById('adminTabBtn').style.display = 'flex';
+          document.getElementById('votingSection').style.display = 'none';
+          document.getElementById('resultsSection').classList.remove('active');
+          document.getElementById('adminPanelSection').classList.add('active');
+          modal.remove();
+          renderResults();
+          renderAdminPanel();
+          updateStatsUI();
+        } else { document.getElementById('adminError').innerText = 'Invalid credentials'; }
+      };
+    };
+  }
+
+  function initTabsAndEvents() {
+    const voteTab = document.getElementById('voteTabBtn');
+    const resTab = document.getElementById('resultsTabBtn');
+    const adminTab = document.getElementById('adminTabBtn');
+    const votingSection = document.getElementById('votingSection');
+    const resultsSec = document.getElementById('resultsSection');
+    const adminSec = document.getElementById('adminPanelSection');
+    voteTab.onclick = () => { if(!currentSession.isAdmin && currentSession.voter) { voteTab.classList.add('active'); resTab.classList.remove('active'); adminTab?.classList.remove('active'); votingSection.style.display = 'grid'; resultsSec.classList.remove('active'); adminSec.classList.remove('active'); } else showMessage("Switch to voter mode to vote", 'error'); };
+    resTab.onclick = () => { voteTab.classList.remove('active'); resTab.classList.add('active'); adminTab?.classList.remove('active'); votingSection.style.display = 'none'; resultsSec.classList.add('active'); adminSec.classList.remove('active'); renderResults(); };
+    if(adminTab) adminTab.onclick = () => { if(currentSession.isAdmin) { voteTab.classList.remove('active'); resTab.classList.remove('active'); adminTab.classList.add('active'); votingSection.style.display = 'none'; resultsSec.classList.remove('active'); adminSec.classList.add('active'); renderAdminPanel(); } else showMessage("Admin access only", 'error'); };
+    document.getElementById('submitVoteBtn').addEventListener('click', submitVote);
+    document.getElementById('refreshAdminBtn')?.addEventListener('click', ()=>{ if(currentSession.isAdmin) renderAdminPanel(); });
+    document.getElementById('resetElectionBtn')?.addEventListener('click', ()=>{ if(currentSession.isAdmin) resetElection(); });
+  }
+
+  function start() {
+    loadData();
+    showAccessModal();
+    initTabsAndEvents();
+    updateStatsUI();
+  }
+  start();
+</script>
+</body>
+</html>
