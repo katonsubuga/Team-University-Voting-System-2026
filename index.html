@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-  <title>Team University Voting System | Admin + Voter Portal</title>
+  <title>Team University Voting System | Official Election Portal</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
@@ -45,20 +45,43 @@
       gap: clamp(0.6rem, 2vw, 1rem);
     }
 
+    /* Professional logo styling with actual l.png image */
     .logo-symbol {
-      width: clamp(45px, 8vw, 70px);
-      height: clamp(45px, 8vw, 70px);
-      border-radius: clamp(16px, 3vw, 24px) clamp(6px, 2vw, 8px) clamp(16px, 3vw, 24px) clamp(6px, 2vw, 8px);
-      background: #f9c74f;
+      width: clamp(55px, 8vw, 85px);
+      height: clamp(55px, 8vw, 85px);
+      border-radius: 18px;
+      background: white;
       display: flex;
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+      padding: 8px;
+      transition: transform 0.2s ease;
+    }
+    
+    .logo-symbol:hover {
+      transform: scale(1.02);
+    }
+    
+    .logo-symbol img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
 
-    .logo-symbol img { width: 100%; height: 100%; object-fit: cover; }
-    .logo-text h1 { font-size: clamp(1.2rem, 5vw, 1.8rem); font-weight: 800; color: white; }
-    .logo-text p { color: #f9c74f; font-weight: 500; font-size: clamp(0.65rem, 2.5vw, 0.85rem); }
+    .logo-text h1 { 
+      font-size: clamp(1.2rem, 5vw, 1.8rem); 
+      font-weight: 800; 
+      color: white; 
+      letter-spacing: -0.3px;
+    }
+    .logo-text p { 
+      color: #f9c74f; 
+      font-weight: 500; 
+      font-size: clamp(0.65rem, 2.5vw, 0.85rem);
+      letter-spacing: 0.5px;
+    }
 
     .header-right {
       display: flex;
@@ -118,15 +141,15 @@
       background: #dc2626;
     }
 
-    /* Access Modal (Role Selection) */
+    /* Access Modal (Role Selection) - Enhanced professional look */
     .access-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.92);
-      backdrop-filter: blur(8px);
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(4px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -135,13 +158,52 @@
     }
 
     .access-card {
-      background: white;
+      position: relative;
+      background: rgba(255, 255, 255, 0.98);
       border-radius: 2rem;
-      max-width: 500px;
+      max-width: 540px;
       width: 90%;
-      padding: 2rem;
+      padding: 2rem 2rem;
       text-align: center;
-      animation: fadeInUp 0.4s ease;
+      animation: fadeInUp 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,240,0.3);
+    }
+    
+    /* Background image layer (official university ambiance) */
+    .access-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('t2.jpeg');
+      background-size: cover;
+      background-position: center 30%;
+      background-repeat: no-repeat;
+      opacity: 0.12;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(1px) brightness(1.02);
+    }
+    
+    /* Ensure content stays above background layer */
+    .access-card > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .role-buttons {
@@ -161,27 +223,33 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      transition: all 0.2s ease;
+      font-size: 0.95rem;
     }
 
-    .voter-btn { background: #144d3a; color: white; }
-    .admin-btn { background: #1e3a5f; color: white; }
+    .voter-btn { background: #144d3a; color: white; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .voter-btn:hover { background: #0f3a2b; transform: scale(1.02); }
+    .admin-btn { background: #1e3a5f; color: white; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .admin-btn:hover { background: #152c48; transform: scale(1.02); }
 
     .auth-form {
       margin-top: 1.5rem;
       padding-top: 1rem;
-      border-top: 1px solid #e2e8f0;
+      border-top: 1px solid rgba(0,0,0,0.08);
     }
 
     .form-group { margin-bottom: 1rem; text-align: left; }
-    .form-group label { font-weight: 600; display: block; margin-bottom: 0.4rem; }
+    .form-group label { font-weight: 600; display: block; margin-bottom: 0.4rem; font-size: 0.85rem; color: #1e2a3e; }
     .auth-input {
       width: 100%;
       padding: 0.8rem 1rem;
       border: 2px solid #e2e8f0;
       border-radius: 60px;
       font-size: 0.95rem;
+      transition: all 0.2s;
+      background: rgba(255,255,255,0.9);
     }
-    .auth-input:focus { outline: none; border-color: #144d3a; }
+    .auth-input:focus { outline: none; border-color: #144d3a; box-shadow: 0 0 0 3px rgba(20,77,58,0.2); }
     .auth-submit {
       background: #144d3a;
       color: white;
@@ -191,8 +259,46 @@
       border-radius: 60px;
       font-weight: 700;
       cursor: pointer;
+      transition: 0.2s;
+      font-size: 1rem;
     }
-    .error-msg { color: #dc2626; font-size: 0.8rem; margin-top: 0.5rem; }
+    .auth-submit:hover { background: #0b2b26; transform: translateY(-1px); }
+    .error-msg { color: #dc2626; font-size: 0.75rem; margin-top: 0.5rem; font-weight: 500; }
+    
+    /* Logo styling inside modal - using l.png */
+    .logo-symbol-small {
+      margin: 0 auto 0.8rem;
+      width: 90px;
+      height: 90px;
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 12px 20px -8px rgba(0,0,0,0.2);
+      padding: 12px;
+    }
+    
+    .logo-symbol-small img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    
+    .access-card h2 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #144d3a, #1e3a5f);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-top: 0.2rem;
+    }
+    .access-card p {
+      color: #4b5e6c;
+      font-weight: 500;
+    }
 
     /* Tabs & Common */
     .tabs-container {
@@ -202,6 +308,7 @@
       border-radius: 60px;
       padding: 0.3rem;
       margin-bottom: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
     }
     .tab-btn {
       flex: 1;
@@ -215,9 +322,10 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
+      transition: all 0.2s;
     }
     .tab-btn.active { background: #144d3a; color: white; }
-    .tab-btn.disabled-tab { opacity: 0.6; cursor: not-allowed; pointer-events: none; }
+    .tab-btn.disabled-tab { opacity: 0.6; cursor: not-allowed; pointer-events: none; background: #eef2f6; }
     .stats-banner {
       display: flex;
       flex-wrap: wrap;
@@ -233,6 +341,7 @@
       align-items: center;
       gap: 1rem;
       border: 1px solid #e2e8f0;
+      transition: 0.2s;
     }
     .stat-icon {
       background: #eef2ff;
@@ -251,6 +360,8 @@
       background: white;
       border-radius: 1.75rem;
       padding: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+      border: 1px solid #edf2f7;
     }
     .candidates-list {
       display: grid;
@@ -266,8 +377,9 @@
       gap: 1rem;
       border: 1px solid #eef2f6;
       cursor: pointer;
+      transition: all 0.2s;
     }
-    .candidate-item.selected { background: #e6f7ec; border-color: #2e7d64; }
+    .candidate-item.selected { background: #e6f7ec; border-color: #2e7d64; box-shadow: 0 3px 8px rgba(46,125,100,0.1); }
     .candidate-item.disabled-candidate { opacity: 0.6; cursor: default; pointer-events: none; }
     .candidate-image {
       width: 60px;
@@ -284,6 +396,7 @@
       border-radius: 24px;
       border: 2px solid #b9c8d4;
       background: white;
+      transition: 0.1s;
     }
     .candidate-item.selected .radio-custom { background: #2e7d64; border-color: #2e7d64; box-shadow: inset 0 0 0 3px white; }
     .right-panel {
@@ -293,6 +406,7 @@
       height: fit-content;
       position: sticky;
       top: 1rem;
+      border: 1px solid #eef2f6;
     }
     select, .admin-select {
       width: 100%;
@@ -300,8 +414,8 @@
       border-radius: 60px;
       border: 1px solid #cfdfe9;
       margin-top: 0.5rem;
+      background: white;
     }
-    select:disabled { background: #f1f5f9; cursor: not-allowed; }
     .btn-submit {
       background: #144d3a;
       width: 100%;
@@ -311,6 +425,8 @@
       border-radius: 60px;
       color: white;
       cursor: pointer;
+      transition: all 0.2s;
+      font-size: 1rem;
     }
     .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; background: #5f7d72; }
     .results-container { display: none; background: white; border-radius: 28px; padding: 1.5rem; }
@@ -348,14 +464,21 @@
     footer { margin-top: 2rem; text-align: center; font-size: 0.75rem; color: #5d6f7f; border-top: 1px solid #dce5ec; padding-top: 1.5rem; }
     .alert-message { margin-top: 1rem; background: #ecfdf5; padding: 0.8rem; border-radius: 16px; font-size: 0.85rem; }
     .readonly-notice { background: #fef9e3; border-left: 4px solid #f9c74f; padding: 0.75rem; margin-bottom: 1rem; border-radius: 16px; font-size: 0.85rem; display: flex; align-items: center; gap: 0.6rem; }
+    .progress-votes { background: #eef2fa; border-radius: 20px; height: 10px; margin: 1rem 0; width: 100%; }
+    .vote-bar { background: #2e7d64; height: 10px; border-radius: 20px; width: 0%; transition: width 0.3s; }
   </style>
 </head>
 <body>
 <div class="app-wrapper" id="appWrapper" style="display: none;">
   <div class="header">
     <div class="logo-area">
-      <div class="logo-symbol"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23144d3a'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='%23f9c74f' font-weight='bold' font-family='Arial'%3ETU%3C/text%3E%3C/svg%3E"></div>
-      <div class="logo-text"><h1>Team University</h1><p>EMPOWER FOR GENERATIONS</p></div>
+      <div class="logo-symbol">
+        <img src="l.png" alt="Team University Official Logo">
+      </div>
+      <div class="logo-text">
+        <h1>Team University</h1>
+        <p>EMPOWER FOR GENERATIONS</p>
+      </div>
     </div>
     <div class="header-right">
       <div class="datetime-badge" id="liveDateTime">
@@ -378,8 +501,6 @@
     <div class="stat-card"><div class="stat-icon"><i class="fas fa-chart-line"></i></div><div><h3 id="liveTurnout">0</h3><p>Total Votes</p></div></div>
     <div class="stat-card"><div class="stat-icon"><i class="fas fa-building"></i></div><div><h3>12+ Centers</h3><p>Active</p></div></div>
   </div>
-
-  <!-- VOTING SECTION (Student View) -->
   <div class="voting-grid" id="votingSection">
     <div class="positions-container" id="positionsContainer"></div>
     <div class="right-panel">
@@ -398,11 +519,7 @@
       <div id="voteMessage" class="alert-message" style="display:none;"></div>
     </div>
   </div>
-
-  <!-- RESULTS SECTION -->
   <div class="results-container" id="resultsSection"><h2><i class="fas fa-chart-simple"></i> Live Results</h2><div id="resultsList"></div></div>
-
-  <!-- ADMIN PANEL SECTION -->
   <div class="results-container" id="adminPanelSection">
     <h2><i class="fas fa-shield-haltered"></i> Electoral Commission Dashboard</h2>
     <div class="admin-panel">
@@ -413,28 +530,23 @@
       <button id="resetElectionBtn" class="btn-submit" style="background:#9b2c2c; margin-top:0.5rem;"><i class="fas fa-trash-alt"></i> Reset Election (Full Reset)</button>
     </div>
     <div class="admin-panel">
-      <h3><i class="fas fa-list-ul"></i> Detailed Voter Log (Name, Reg, Center & Votes per Candidate)</h3>
+      <h3><i class="fas fa-list-ul"></i> Detailed Voter Log (Name, Reg, Center & Votes)</h3>
       <div style="overflow-x: auto;"><table class="voter-log-table" id="voterLogTable"><thead><tr><th>Full Name</th><th>Reg Number</th><th>Center</th><th>Votes Cast</th><th>Timestamp</th></tr></thead><tbody id="voterLogBody"></tbody></table></div>
     </div>
   </div>
   <footer><i class="far fa-registered"></i> Team University Electoral Commission • Secure One-Vote System</footer>
 </div>
-
 <script>
-  // LIVE DATE & TIME FUNCTIONALITY
   function updateDateTime() {
     const now = new Date();
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     const dateString = now.toLocaleDateString(undefined, options);
     const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    const dateElem = document.getElementById('currentDate');
-    const timeElem = document.getElementById('currentTime');
-    if (dateElem) dateElem.textContent = dateString;
-    if (timeElem) timeElem.textContent = timeString;
+    if(document.getElementById('currentDate')) document.getElementById('currentDate').textContent = dateString;
+    if(document.getElementById('currentTime')) document.getElementById('currentTime').textContent = timeString;
   }
   setInterval(updateDateTime, 1000);
   
-  // ---------- CANDIDATE DATA ----------
   const POSITIONS = [
     { id: 'president', name: '🎓 Guild President' },
     { id: 'vicePresident', name: '📚 Vice President Academic' },
@@ -467,13 +579,11 @@
     ]
   };
 
-  // Global state
   let overallTallies = {};
   let totalVotesCast = 0;
   let currentSession = { role: null, voter: null, isAdmin: false };
   let currentSelections = {};
 
-  // ---------- Storage Helpers ----------
   function loadData() {
     const storedTallies = localStorage.getItem('tu_tallies');
     if(storedTallies) overallTallies = JSON.parse(storedTallies);
@@ -483,32 +593,22 @@
     if(!storedTallies) saveTallies();
   }
   function saveTallies() { localStorage.setItem('tu_tallies', JSON.stringify(overallTallies)); localStorage.setItem('tu_totalVotes', totalVotesCast); }
-  
   function getVotersRegistry() { return JSON.parse(localStorage.getItem('tu_votersRegistry') || '{}'); }
   function saveVotersRegistry(registry) { localStorage.setItem('tu_votersRegistry', JSON.stringify(registry)); }
-  
   function hasVoted(reg) { return !!getVotersRegistry()[reg]; }
   function getVoterDetails(reg) { return getVotersRegistry()[reg] || null; }
-  function recordVoter(reg, fullName, selections, center) {
-    const registry = getVotersRegistry();
-    registry[reg] = { fullName, reg, center, votes: selections, timestamp: Date.now() };
-    saveVotersRegistry(registry);
-  }
-
+  function recordVoter(reg, fullName, selections, center) { const registry = getVotersRegistry(); registry[reg] = { fullName, reg, center, votes: selections, timestamp: Date.now() }; saveVotersRegistry(registry); }
   function isValidRegNumber(reg) { return /^(\d{1,2})\/(\d{1,2})\/TU\/(\d{3,4})\/([A-Z0-9]{3,6})$/i.test(reg.trim().toUpperCase()) || reg.trim().toUpperCase() === "23/8/TU/225/DITW"; }
   function isValidFullName(name) { return name.trim().split(/\s+/).length >= 2 && name.trim().length >= 5; }
 
-  // ---------- UI Rendering (Voter) ----------
-  function renderVotingUI() {
-    const container = document.getElementById('positionsContainer');
-    if(!container) return;
+  function renderVotingUI() { 
+    const container = document.getElementById('positionsContainer'); if(!container) return;
     const isReadOnly = currentSession.voter?.hasVoted === true;
     container.innerHTML = '';
     POSITIONS.forEach(pos => {
       const cands = CANDIDATES[pos.id];
       const selectedId = currentSelections[pos.id];
-      const card = document.createElement('div');
-      card.className = 'position-card';
+      const card = document.createElement('div'); card.className = 'position-card';
       card.innerHTML = `<div class="position-header"><h2>${pos.name}</h2></div><div class="candidates-list" id="list-${pos.id}"></div>`;
       container.appendChild(card);
       const listDiv = card.querySelector(`.candidates-list`);
@@ -516,274 +616,28 @@
         const isSelected = selectedId === cand.id;
         const div = document.createElement('div');
         div.className = `candidate-item ${isSelected ? 'selected' : ''} ${isReadOnly ? 'disabled-candidate' : ''}`;
-        div.innerHTML = `
-          <div class="candidate-image"><img src="${cand.image}" onerror="this.src='https://ui-avatars.com/api/?background=2e7d64&color=fff&name=${cand.name.charAt(0)}'"></div>
-          <div class="candidate-info"><div class="candidate-name">${cand.name}</div><div class="candidate-party">${cand.party}</div></div>
-          <div class="radio-custom"></div>
-        `;
-        if(!isReadOnly) {
-          div.addEventListener('click', () => { 
-            if(currentSession.voter?.hasVoted) { showMessage("You have already voted. Results view only.", 'error'); return; }
-            currentSelections[pos.id] = cand.id; 
-            renderVotingUI(); 
-            updateSummary(); 
-          });
-        }
+        div.innerHTML = `<div class="candidate-image"><img src="${cand.image}" onerror="this.src='https://ui-avatars.com/api/?background=2e7d64&color=fff&name=${cand.name.charAt(0)}'"></div><div class="candidate-info"><div class="candidate-name">${cand.name}</div><div class="candidate-party">${cand.party}</div></div><div class="radio-custom"></div>`;
+        if(!isReadOnly) div.addEventListener('click', () => { if(currentSession.voter?.hasVoted) return; currentSelections[pos.id] = cand.id; renderVotingUI(); updateSummary(); });
         listDiv.appendChild(div);
       });
     });
     updateSummary();
   }
-  
-  function updateSummary() {
-    const cnt = Object.keys(currentSelections).length;
-    const percent = Math.round((cnt / POSITIONS.length) * 100);
-    document.getElementById('completionPercent').innerText = `${percent}%`;
-    const completionBar = document.getElementById('completionBar');
-    if(completionBar) completionBar.style.width = `${percent}%`;
-    const summaryDiv = document.getElementById('summaryList');
-    if(cnt === 0) summaryDiv.innerHTML = '<p>No selections</p>';
-    else { let html = '<ul>'; POSITIONS.forEach(p => { const sel = currentSelections[p.id]; if(sel) { const cand = CANDIDATES[p.id].find(c=>c.id===sel); html+=`<li><strong>${p.name}:</strong> ${cand?.name}</li>`; } else html+=`<li><strong>${p.name}:</strong> Pending</li>`; }); html+='</ul>'; summaryDiv.innerHTML = html; }
-  }
-  
-  function showMessage(msg, type) {
-    const div = document.getElementById('voteMessage'); div.style.display = 'block'; div.style.background = type==='error'?'#fee2e2':'#e0f2fe'; div.innerHTML = `<i class="fas fa-info-circle"></i> ${msg}`;
-    setTimeout(()=>div.style.display='none',4000);
-  }
-  
-  function submitVote() {
-    if(!currentSession.voter || currentSession.voter.hasVoted) { showMessage("You have already voted or not logged in.", 'error'); return; }
-    const center = document.getElementById('centerSelect').value;
-    if(!center) { showMessage("Select voting center.", 'error'); return; }
-    if(Object.keys(currentSelections).length !== POSITIONS.length) { showMessage(`Vote for all ${POSITIONS.length} positions.`, 'error'); return; }
-    for(let posId in currentSelections) { const cid = currentSelections[posId]; overallTallies[cid] = (overallTallies[cid]||0)+1; }
-    totalVotesCast++;
-    recordVoter(currentSession.voter.regNumber, currentSession.voter.fullName, currentSelections, center);
-    currentSession.voter.hasVoted = true;
-    saveTallies();
-    updateStatsUI();
-    showMessage(`✅ Vote cast at ${center}. Thank you ${currentSession.voter.fullName}! You can now follow results live.`, 'info');
-    document.getElementById('submitVoteBtn').disabled = true;
-    document.getElementById('submitVoteBtn').innerHTML = '<i class="fas fa-check-double"></i> Voted';
-    applyVoterRestrictionsAfterVote();
-    renderVotingUI();
-    renderResults();
-    if(currentSession.isAdmin) renderAdminPanel();
-  }
-
-  function applyVoterRestrictionsAfterVote() {
-    if(currentSession.voter && currentSession.voter.hasVoted) {
-      const voteTab = document.getElementById('voteTabBtn');
-      if(voteTab) voteTab.classList.add('disabled-tab');
-      if(document.getElementById('centerSelect')) document.getElementById('centerSelect').disabled = true;
-      if(document.getElementById('submitVoteBtn')) document.getElementById('submitVoteBtn').disabled = true;
-      const rightPanel = document.querySelector('.right-panel');
-      if(rightPanel && !document.querySelector('.readonly-notice')) {
-        const notice = document.createElement('div');
-        notice.className = 'readonly-notice';
-        notice.innerHTML = '<i class="fas fa-info-circle"></i> <strong>You have already voted.</strong> You are now in read-only mode. Use the Results tab to follow live election updates.';
-        rightPanel.insertBefore(notice, rightPanel.firstChild);
-      }
-      document.getElementById('resultsTabBtn').click();
-    }
-  }
-  
-  function setupReadOnlyForAlreadyVoted() {
-    if(currentSession.voter && currentSession.voter.hasVoted) {
-      applyVoterRestrictionsAfterVote();
-      const voteTab = document.getElementById('voteTabBtn');
-      if(voteTab) voteTab.classList.add('disabled-tab');
-      const registry = getVotersRegistry();
-      const existingVote = registry[currentSession.voter.regNumber];
-      if(existingVote && existingVote.votes) {
-        currentSelections = existingVote.votes;
-      }
-      renderVotingUI();
-      if(document.getElementById('centerSelect')) document.getElementById('centerSelect').disabled = true;
-      if(document.getElementById('submitVoteBtn')) document.getElementById('submitVoteBtn').disabled = true;
-      showMessage("You have already voted. Welcome back! You can monitor live results from the Results tab.", "info");
-    }
-  }
-  
-  function renderResults() {
-    const container = document.getElementById('resultsList'); if(!container) return;
-    let html = '';
-    POSITIONS.forEach(pos => {
-      const candidates = CANDIDATES[pos.id];
-      let totalPos = 0; const stats = candidates.map(c => { const v = overallTallies[c.id]||0; totalPos+=v; return {...c, votes:v}; });
-      html += `<div class="result-card"><div style="font-weight:800;">${pos.name}</div>`;
-      stats.forEach(s => { const percent = totalPos>0 ? (s.votes/totalPos*100):0; const isWinner = totalPos>0 && s.votes === Math.max(...stats.map(x=>x.votes)); html += `
-        <div class="candidate-result"><div style="display:flex; gap:0.8rem;"><div style="width:45px;height:45px;border-radius:45px;overflow:hidden;"><img src="${s.image}" style="width:100%;" onerror="this.src='https://ui-avatars.com/api/?background=2e7d64&color=fff&name=${s.name.charAt(0)}'"></div><div><strong>${s.name}</strong> ${isWinner?'<span class="winner-badge">LEADING</span>':''}<br><small>${s.party}</small></div></div>
-        <div><div>${s.votes} (${percent.toFixed(1)}%)</div><div class="vote-progress-bg"><div class="vote-progress-fill" style="width:${percent}%;"></div></div></div></div>`; });
-      html += `</div>`;
-    });
-    container.innerHTML = html;
-  }
-
+  function updateSummary() { const cnt = Object.keys(currentSelections).length; const percent = Math.round((cnt / POSITIONS.length) * 100); document.getElementById('completionPercent').innerText = `${percent}%`; const completionBar = document.getElementById('completionBar'); if(completionBar) completionBar.style.width = `${percent}%`; const summaryDiv = document.getElementById('summaryList'); if(cnt === 0) summaryDiv.innerHTML = '<p>No selections</p>'; else { let html = '<ul>'; POSITIONS.forEach(p => { const sel = currentSelections[p.id]; if(sel) { const cand = CANDIDATES[p.id].find(c=>c.id===sel); html+=`<li><strong>${p.name}:</strong> ${cand?.name}</li>`; } else html+=`<li><strong>${p.name}:</strong> Pending</li>`; }); html+='</ul>'; summaryDiv.innerHTML = html; } }
+  function showMessage(msg, type) { const div = document.getElementById('voteMessage'); div.style.display = 'block'; div.style.background = type==='error'?'#fee2e2':'#e0f2fe'; div.innerHTML = `<i class="fas fa-info-circle"></i> ${msg}`; setTimeout(()=>div.style.display='none',4000); }
+  function submitVote() { if(!currentSession.voter || currentSession.voter.hasVoted) { showMessage("Already voted or not logged in.", 'error'); return; } const center = document.getElementById('centerSelect').value; if(!center) { showMessage("Select voting center.", 'error'); return; } if(Object.keys(currentSelections).length !== POSITIONS.length) { showMessage(`Vote for all ${POSITIONS.length} positions.`, 'error'); return; } for(let posId in currentSelections) { const cid = currentSelections[posId]; overallTallies[cid] = (overallTallies[cid]||0)+1; } totalVotesCast++; recordVoter(currentSession.voter.regNumber, currentSession.voter.fullName, currentSelections, center); currentSession.voter.hasVoted = true; saveTallies(); updateStatsUI(); showMessage(`✅ Vote cast at ${center}. Thank you!`, 'info'); document.getElementById('submitVoteBtn').disabled = true; document.getElementById('submitVoteBtn').innerHTML = '<i class="fas fa-check-double"></i> Voted'; applyVoterRestrictionsAfterVote(); renderVotingUI(); renderResults(); if(currentSession.isAdmin) renderAdminPanel(); }
+  function applyVoterRestrictionsAfterVote() { if(currentSession.voter?.hasVoted) { const voteTab = document.getElementById('voteTabBtn'); if(voteTab) voteTab.classList.add('disabled-tab'); if(document.getElementById('centerSelect')) document.getElementById('centerSelect').disabled = true; if(document.getElementById('submitVoteBtn')) document.getElementById('submitVoteBtn').disabled = true; const rightPanel = document.querySelector('.right-panel'); if(rightPanel && !document.querySelector('.readonly-notice')) { const notice = document.createElement('div'); notice.className = 'readonly-notice'; notice.innerHTML = '<i class="fas fa-info-circle"></i> <strong>You have already voted.</strong> Read-only mode: follow live results.'; rightPanel.insertBefore(notice, rightPanel.firstChild); } document.getElementById('resultsTabBtn').click(); } }
+  function renderResults() { const container = document.getElementById('resultsList'); if(!container) return; let html = ''; POSITIONS.forEach(pos => { const candidates = CANDIDATES[pos.id]; let totalPos = 0; const stats = candidates.map(c => { const v = overallTallies[c.id]||0; totalPos+=v; return {...c, votes:v}; }); html += `<div class="result-card"><div style="font-weight:800;">${pos.name}</div>`; stats.forEach(s => { const percent = totalPos>0 ? (s.votes/totalPos*100):0; const isWinner = totalPos>0 && s.votes === Math.max(...stats.map(x=>x.votes)); html += `<div class="candidate-result"><div style="display:flex; gap:0.8rem;"><div style="width:45px;height:45px;border-radius:45px;overflow:hidden;"><img src="${s.image}" style="width:100%;" onerror="this.src='https://ui-avatars.com/api/?background=2e7d64&color=fff&name=${s.name.charAt(0)}'"></div><div><strong>${s.name}</strong> ${isWinner?'<span class="winner-badge">LEADING</span>':''}<br><small>${s.party}</small></div></div><div><div>${s.votes} (${percent.toFixed(1)}%)</div><div class="vote-progress-bg"><div class="vote-progress-fill" style="width:${percent}%;"></div></div></div></div>`; }); html += `</div>`; }); container.innerHTML = html; }
   function updateStatsUI() { document.getElementById('liveTurnout').innerText = totalVotesCast; document.getElementById('totalVotersCount').innerText = Object.keys(getVotersRegistry()).length; }
-  
-  function renderAdminPanel() {
-    if(!currentSession.isAdmin) return;
-    const registry = getVotersRegistry();
-    document.getElementById('adminTotalVotes').innerText = totalVotesCast;
-    document.getElementById('adminUniqueVoters').innerText = Object.keys(registry).length;
-    const tbody = document.getElementById('voterLogBody');
-    tbody.innerHTML = '';
-    Object.values(registry).forEach(v => {
-      const voteSummary = Object.entries(v.votes || {}).map(([posId, candId]) => {
-        const posName = POSITIONS.find(p=>p.id===posId)?.name || posId;
-        const cand = Object.values(CANDIDATES).flat().find(c=>c.id===candId);
-        return `${posName}: ${cand?.name || candId}`;
-      }).join('; ');
-      const row = `<tr><td>${escapeHtml(v.fullName)}</td><td>${escapeHtml(v.reg)}</td><td>${escapeHtml(v.center)}</td><td>${escapeHtml(voteSummary || 'N/A')}</td><td>${new Date(v.timestamp).toLocaleString()}</td></tr>`;
-      tbody.insertAdjacentHTML('beforeend', row);
-    });
-  }
+  function renderAdminPanel() { if(!currentSession.isAdmin) return; const registry = getVotersRegistry(); document.getElementById('adminTotalVotes').innerText = totalVotesCast; document.getElementById('adminUniqueVoters').innerText = Object.keys(registry).length; const tbody = document.getElementById('voterLogBody'); tbody.innerHTML = ''; Object.values(registry).forEach(v => { const voteSummary = Object.entries(v.votes || {}).map(([posId, candId]) => { const posName = POSITIONS.find(p=>p.id===posId)?.name || posId; const cand = Object.values(CANDIDATES).flat().find(c=>c.id===candId); return `${posName}: ${cand?.name || candId}`; }).join('; '); const row = `<tr><td>${escapeHtml(v.fullName)}</td><td>${escapeHtml(v.reg)}</td><td>${escapeHtml(v.center)}</td><td>${escapeHtml(voteSummary || 'N/A')}</td><td>${new Date(v.timestamp).toLocaleString()}</td></tr>`; tbody.insertAdjacentHTML('beforeend', row); }); }
   function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
-
-  function resetElection() {
-    if(confirm("⚠️ FULL RESET: This will delete all votes, voter registry and tallies. Are you sure? Only Admin can do this.")) {
-      localStorage.removeItem('tu_tallies'); localStorage.removeItem('tu_totalVotes'); localStorage.removeItem('tu_votersRegistry');
-      loadData();
-      totalVotesCast = 0;
-      saveTallies();
-      if(currentSession.voter) currentSession.voter.hasVoted = false;
-      currentSelections = {};
-      updateStatsUI();
-      renderResults();
-      if(currentSession.isAdmin) renderAdminPanel();
-      if(!currentSession.isAdmin && currentSession.voter) { renderVotingUI(); applyVoterRestrictionsAfterVote(); }
-      showMessage("Election has been reset by Admin.", "info");
-    }
-  }
-
-  function performLogout() {
-    currentSession = { role: null, voter: null, isAdmin: false };
-    currentSelections = {};
-    document.getElementById('appWrapper').style.display = 'none';
-    const existingModal = document.getElementById('accessModal');
-    if(existingModal) existingModal.remove();
-    showAccessModal();
-  }
-
-  function updateSessionUI() {
-    const logoutBtn = document.getElementById('globalLogoutBtn');
-    const sessionSpan = document.getElementById('sessionRole');
-    if(currentSession.isAdmin) {
-      sessionSpan.innerHTML = `<i class="fas fa-shield-alt"></i> Admin: Kato Nsubuga`;
-      if(logoutBtn) logoutBtn.style.display = 'flex';
-    } else if(currentSession.voter) {
-      sessionSpan.innerHTML = `<i class="fas fa-user-check"></i> Voter: ${currentSession.voter.fullName} ${currentSession.voter.hasVoted ? '✓ Voted' : ''}`;
-      if(logoutBtn) logoutBtn.style.display = 'flex';
-    } else {
-      sessionSpan.innerHTML = `Not logged in`;
-      if(logoutBtn) logoutBtn.style.display = 'none';
-    }
-  }
-
-  function showAccessModal() {
-    const modal = document.createElement('div'); modal.className = 'access-overlay'; modal.id='accessModal';
-    modal.innerHTML = `
-      <div class="access-card"><div class="logo-symbol-small" style="margin:0 auto; width:70px; height:70px; background:#144d3a; border-radius:30px; overflow:hidden;"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23144d3a'/%3E%3Ctext x='50' y='68' font-size='52' text-anchor='middle' fill='%23f9c74f' font-weight='bold' font-family='Arial'%3ETU%3C/text%3E%3C/svg%3E"></div>
-      <h2>Team University Voting Portal</h2><p>Select access type</p>
-      <div class="role-buttons"><button id="voterRoleBtn" class="role-btn voter-btn"><i class="fas fa-user-graduate"></i> Student Voter</button><button id="adminRoleBtn" class="role-btn admin-btn"><i class="fas fa-user-tie"></i> Electoral Admin</button></div>
-      <div id="dynamicAuthForm"></div></div>`;
-    document.body.appendChild(modal);
-    const voterBtn = document.getElementById('voterRoleBtn');
-    const adminBtn = document.getElementById('adminRoleBtn');
-    const formContainer = document.getElementById('dynamicAuthForm');
-    
-    voterBtn.onclick = () => {
-      formContainer.innerHTML = `<div class="auth-form"><div class="form-group"><label>Full Name</label><input type="text" id="voterFullName" class="auth-input" placeholder="e.g., Okello James"></div>
-      <div class="form-group"><label>Registration Number</label><input type="text" id="voterReg" class="auth-input" placeholder="23/8/TU/225/DITW"></div>
-      <button id="voterLoginBtn" class="auth-submit"><i class="fas fa-sign-in-alt"></i> Verify & Enter</button><div id="authError" class="error-msg"></div></div>`;
-      document.getElementById('voterLoginBtn').onclick = () => {
-        const full = document.getElementById('voterFullName').value.trim();
-        const reg = document.getElementById('voterReg').value.trim().toUpperCase();
-        if(!isValidFullName(full)) { document.getElementById('authError').innerText = 'Enter valid full name (First & Last)'; return; }
-        if(!isValidRegNumber(reg)) { document.getElementById('authError').innerText = 'Invalid registration number'; return; }
-        const votedStatus = hasVoted(reg);
-        currentSession = { role: 'voter', isAdmin: false, voter: { regNumber: reg, fullName: full, hasVoted: votedStatus } };
-        if(votedStatus) {
-          const existingData = getVoterDetails(reg);
-          if(existingData) currentSession.voter.fullName = existingData.fullName;
-          currentSelections = existingData?.votes || {};
-        } else {
-          currentSelections = {};
-        }
-        document.getElementById('appWrapper').style.display = 'block';
-        updateSessionUI();
-        document.getElementById('adminTabBtn').style.display = 'none';
-        document.getElementById('votingSection').style.display = 'grid';
-        document.getElementById('resultsSection').classList.remove('active');
-        document.getElementById('adminPanelSection').classList.remove('active');
-        modal.remove();
-        renderVotingUI();
-        updateStatsUI();
-        renderResults();
-        if(votedStatus) {
-          applyVoterRestrictionsAfterVote();
-          showMessage(`Welcome back ${full}, you already cast your vote. Use Results tab to monitor real-time updates.`, "info");
-        } else {
-          document.getElementById('submitVoteBtn').disabled = false;
-          document.getElementById('submitVoteBtn').innerHTML = '<i class="fas fa-vote-yea"></i> Cast Vote Securely';
-        }
-        setupReadOnlyForAlreadyVoted();
-      };
-    };
-    adminBtn.onclick = () => {
-      formContainer.innerHTML = `<div class="auth-form"><div class="form-group"><label>Admin Username</label><input type="text" id="adminUser" class="auth-input" placeholder="Kato Nsubuga"></div>
-      <div class="form-group"><label>Password</label><input type="password" id="adminPass" class="auth-input"></div>
-      <button id="adminLoginBtn" class="auth-submit"><i class="fas fa-lock"></i> Access Dashboard</button><div id="adminError" class="error-msg"></div></div>`;
-      document.getElementById('adminLoginBtn').onclick = () => {
-        const user = document.getElementById('adminUser').value.trim();
-        const pass = document.getElementById('adminPass').value;
-        if(user === "Kato Nsubuga" && pass === "love123") {
-          currentSession = { role: 'admin', isAdmin: true, voter: null };
-          document.getElementById('appWrapper').style.display = 'block';
-          updateSessionUI();
-          document.getElementById('adminTabBtn').style.display = 'flex';
-          document.getElementById('votingSection').style.display = 'none';
-          document.getElementById('resultsSection').classList.remove('active');
-          document.getElementById('adminPanelSection').classList.add('active');
-          modal.remove();
-          renderResults();
-          renderAdminPanel();
-          updateStatsUI();
-        } else { document.getElementById('adminError').innerText = 'Invalid credentials'; }
-      };
-    };
-  }
-
-  function initTabsAndEvents() {
-    const voteTab = document.getElementById('voteTabBtn');
-    const resTab = document.getElementById('resultsTabBtn');
-    const adminTab = document.getElementById('adminTabBtn');
-    const votingSection = document.getElementById('votingSection');
-    const resultsSec = document.getElementById('resultsSection');
-    const adminSec = document.getElementById('adminPanelSection');
-    voteTab.onclick = () => { 
-      if(currentSession.voter && currentSession.voter.hasVoted) { showMessage("You have already voted. You can only view live results.", 'error'); return; }
-      if(!currentSession.isAdmin && currentSession.voter) { voteTab.classList.add('active'); resTab.classList.remove('active'); adminTab?.classList.remove('active'); votingSection.style.display = 'grid'; resultsSec.classList.remove('active'); adminSec.classList.remove('active'); } 
-      else if(!currentSession.voter) showMessage("Switch to voter mode to vote", 'error');
-    };
-    resTab.onclick = () => { voteTab.classList.remove('active'); resTab.classList.add('active'); adminTab?.classList.remove('active'); votingSection.style.display = 'none'; resultsSec.classList.add('active'); adminSec.classList.remove('active'); renderResults(); };
-    if(adminTab) adminTab.onclick = () => { if(currentSession.isAdmin) { voteTab.classList.remove('active'); resTab.classList.remove('active'); adminTab.classList.add('active'); votingSection.style.display = 'none'; resultsSec.classList.remove('active'); adminSec.classList.add('active'); renderAdminPanel(); } else showMessage("Admin access only", 'error'); };
-    document.getElementById('submitVoteBtn').addEventListener('click', submitVote);
-    document.getElementById('refreshAdminBtn')?.addEventListener('click', ()=>{ if(currentSession.isAdmin) renderAdminPanel(); });
-    document.getElementById('resetElectionBtn')?.addEventListener('click', ()=>{ if(currentSession.isAdmin) resetElection(); });
-    const logoutBtn = document.getElementById('globalLogoutBtn');
-    if(logoutBtn) logoutBtn.addEventListener('click', () => { if(confirm("Logout and return to login?")) performLogout(); });
-  }
-
-  function start() {
-    loadData();
-    updateDateTime();
-    setInterval(updateDateTime, 1000);
-    showAccessModal();
-    initTabsAndEvents();
-    updateStatsUI();
-  }
+  function resetElection() { if(confirm("⚠️ FULL RESET: Delete all votes & registry?")) { localStorage.removeItem('tu_tallies'); localStorage.removeItem('tu_totalVotes'); localStorage.removeItem('tu_votersRegistry'); loadData(); totalVotesCast = 0; saveTallies(); if(currentSession.voter) currentSession.voter.hasVoted = false; currentSelections = {}; updateStatsUI(); renderResults(); if(currentSession.isAdmin) renderAdminPanel(); if(!currentSession.isAdmin && currentSession.voter) { renderVotingUI(); applyVoterRestrictionsAfterVote(); } showMessage("Election reset by Admin.", "info"); } }
+  function performLogout() { currentSession = { role: null, voter: null, isAdmin: false }; currentSelections = {}; document.getElementById('appWrapper').style.display = 'none'; const existingModal = document.getElementById('accessModal'); if(existingModal) existingModal.remove(); showAccessModal(); }
+  function updateSessionUI() { const logoutBtn = document.getElementById('globalLogoutBtn'); const sessionSpan = document.getElementById('sessionRole'); if(currentSession.isAdmin) { sessionSpan.innerHTML = `<i class="fas fa-shield-alt"></i> Admin: Kato Nsubuga`; if(logoutBtn) logoutBtn.style.display = 'flex'; } else if(currentSession.voter) { sessionSpan.innerHTML = `<i class="fas fa-user-check"></i> Voter: ${currentSession.voter.fullName} ${currentSession.voter.hasVoted ? '✓ Voted' : ''}`; if(logoutBtn) logoutBtn.style.display = 'flex'; } else { sessionSpan.innerHTML = `Not logged in`; if(logoutBtn) logoutBtn.style.display = 'none'; } }
+  function showAccessModal() { const modal = document.createElement('div'); modal.className = 'access-overlay'; modal.id='accessModal'; modal.innerHTML = `<div class="access-card"><div class="logo-symbol-small"><img src="l.png" alt="Team University Crest"></div><h2>Team University Voting Portal</h2><p style="margin-bottom:0.5rem;">Student & Election Commission Access</p><div class="role-buttons"><button id="voterRoleBtn" class="role-btn voter-btn"><i class="fas fa-user-graduate"></i> Student Voter</button><button id="adminRoleBtn" class="role-btn admin-btn"><i class="fas fa-user-tie"></i> Electoral Admin</button></div><div id="dynamicAuthForm"></div></div>`; document.body.appendChild(modal); const voterBtn = document.getElementById('voterRoleBtn'); const adminBtn = document.getElementById('adminRoleBtn'); const formContainer = document.getElementById('dynamicAuthForm'); voterBtn.onclick = () => { formContainer.innerHTML = `<div class="auth-form"><div class="form-group"><label>Full Name</label><input type="text" id="voterFullName" class="auth-input" placeholder="e.g., Okello James"></div><div class="form-group"><label>Registration Number</label><input type="text" id="voterReg" class="auth-input" placeholder="23/8/TU/225/DITW"></div><button id="voterLoginBtn" class="auth-submit"><i class="fas fa-sign-in-alt"></i> Verify & Enter</button><div id="authError" class="error-msg"></div></div>`; document.getElementById('voterLoginBtn').onclick = () => { const full = document.getElementById('voterFullName').value.trim(); const reg = document.getElementById('voterReg').value.trim().toUpperCase(); if(!isValidFullName(full)) { document.getElementById('authError').innerText = 'Valid full name required'; return; } if(!isValidRegNumber(reg)) { document.getElementById('authError').innerText = 'Invalid registration number'; return; } const votedStatus = hasVoted(reg); currentSession = { role: 'voter', isAdmin: false, voter: { regNumber: reg, fullName: full, hasVoted: votedStatus } }; if(votedStatus) { const existingData = getVoterDetails(reg); if(existingData) currentSession.voter.fullName = existingData.fullName; currentSelections = existingData?.votes || {}; } else { currentSelections = {}; } document.getElementById('appWrapper').style.display = 'block'; updateSessionUI(); document.getElementById('adminTabBtn').style.display = 'none'; document.getElementById('votingSection').style.display = 'grid'; document.getElementById('resultsSection').classList.remove('active'); document.getElementById('adminPanelSection').classList.remove('active'); modal.remove(); renderVotingUI(); updateStatsUI(); renderResults(); if(votedStatus) { applyVoterRestrictionsAfterVote(); showMessage(`Welcome back ${full}, you already voted.`, "info"); } else { document.getElementById('submitVoteBtn').disabled = false; document.getElementById('submitVoteBtn').innerHTML = '<i class="fas fa-vote-yea"></i> Cast Vote Securely'; } setupReadOnlyForAlreadyVoted(); }; }; adminBtn.onclick = () => { formContainer.innerHTML = `<div class="auth-form"><div class="form-group"><label>Admin Username</label><input type="text" id="adminUser" class="auth-input" placeholder="Kato Nsubuga"></div><div class="form-group"><label>Password</label><input type="password" id="adminPass" class="auth-input"></div><button id="adminLoginBtn" class="auth-submit"><i class="fas fa-lock"></i> Access Dashboard</button><div id="adminError" class="error-msg"></div></div>`; document.getElementById('adminLoginBtn').onclick = () => { const user = document.getElementById('adminUser').value.trim(); const pass = document.getElementById('adminPass').value; if(user === "Kato Nsubuga" && pass === "love123") { currentSession = { role: 'admin', isAdmin: true, voter: null }; document.getElementById('appWrapper').style.display = 'block'; updateSessionUI(); document.getElementById('adminTabBtn').style.display = 'flex'; document.getElementById('votingSection').style.display = 'none'; document.getElementById('resultsSection').classList.remove('active'); document.getElementById('adminPanelSection').classList.add('active'); modal.remove(); renderResults(); renderAdminPanel(); updateStatsUI(); } else { document.getElementById('adminError').innerText = 'Invalid credentials'; } }; }; }
+  function setupReadOnlyForAlreadyVoted() { if(currentSession.voter && currentSession.voter.hasVoted) { applyVoterRestrictionsAfterVote(); const voteTab = document.getElementById('voteTabBtn'); if(voteTab) voteTab.classList.add('disabled-tab'); const registry = getVotersRegistry(); const existingVote = registry[currentSession.voter.regNumber]; if(existingVote && existingVote.votes) currentSelections = existingVote.votes; renderVotingUI(); if(document.getElementById('centerSelect')) document.getElementById('centerSelect').disabled = true; if(document.getElementById('submitVoteBtn')) document.getElementById('submitVoteBtn').disabled = true; } }
+  function initTabsAndEvents() { const voteTab = document.getElementById('voteTabBtn'); const resTab = document.getElementById('resultsTabBtn'); const adminTab = document.getElementById('adminTabBtn'); const votingSection = document.getElementById('votingSection'); const resultsSec = document.getElementById('resultsSection'); const adminSec = document.getElementById('adminPanelSection'); voteTab.onclick = () => { if(currentSession.voter && currentSession.voter.hasVoted) { showMessage("Already voted. View results only.", 'error'); return; } if(!currentSession.isAdmin && currentSession.voter) { voteTab.classList.add('active'); resTab.classList.remove('active'); adminTab?.classList.remove('active'); votingSection.style.display = 'grid'; resultsSec.classList.remove('active'); adminSec.classList.remove('active'); } else if(!currentSession.voter) showMessage("Switch to voter mode.", 'error'); }; resTab.onclick = () => { voteTab.classList.remove('active'); resTab.classList.add('active'); adminTab?.classList.remove('active'); votingSection.style.display = 'none'; resultsSec.classList.add('active'); adminSec.classList.remove('active'); renderResults(); }; if(adminTab) adminTab.onclick = () => { if(currentSession.isAdmin) { voteTab.classList.remove('active'); resTab.classList.remove('active'); adminTab.classList.add('active'); votingSection.style.display = 'none'; resultsSec.classList.remove('active'); adminSec.classList.add('active'); renderAdminPanel(); } else showMessage("Admin access only", 'error'); }; document.getElementById('submitVoteBtn')?.addEventListener('click', submitVote); document.getElementById('refreshAdminBtn')?.addEventListener('click', ()=>{ if(currentSession.isAdmin) renderAdminPanel(); }); document.getElementById('resetElectionBtn')?.addEventListener('click', ()=>{ if(currentSession.isAdmin) resetElection(); }); document.getElementById('globalLogoutBtn')?.addEventListener('click', () => { if(confirm("Logout?")) performLogout(); }); }
+  function start() { loadData(); updateDateTime(); setInterval(updateDateTime, 1000); showAccessModal(); initTabsAndEvents(); updateStatsUI(); }
   start();
 </script>
 </body>
